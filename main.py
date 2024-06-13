@@ -1,6 +1,7 @@
 import os
 import rich
 
+from script.fabric.fetch import fetch_fabric
 from script.vanillia.fetch import fetch_vanilla
 
 ASSETS_PATH = "assets/"
@@ -33,4 +34,5 @@ if __name__ == '__main__':
     check()
 
     fetch_vanilla(UPSTREAM_PATH)
+    fetch_fabric(UPSTREAM_PATH)
 
