@@ -14,9 +14,9 @@ console = rich.get_console()
 def fetch_fabric(upstream):
     if not os.path.exists(f"{upstream}/fabric"):
         os.makedirs(f"{upstream}/fabric")
-    if not os.path.exists(f"{upstream}/loader"):
-        console.log(f"[green]Create {upstream}/loader")
-        os.makedirs(f"{upstream}/loader")
+    if not os.path.exists(f"{upstream}/fabric/loader"):
+        console.log(f"[green]Create {upstream}/fabric/loader")
+        os.makedirs(f"{upstream}/fabric/loader")
 
     console.log("[green]start fetching fabric data!")
     fetch_fabric_game_version(upstream)
