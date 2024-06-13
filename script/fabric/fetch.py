@@ -12,12 +12,15 @@ console = rich.get_console()
 
 
 def fetch_fabric(upstream):
-    console.log("[green]start fetching fabric data!")
-    fetch_fabric_game_version(upstream)
-    versions = fetch_loader_version(upstream)
+    if not os.path.exists(f"{upstream}/fabric"):
+        os.makedirs(f"{upstream}/fabric")
     if not os.path.exists(f"{upstream}/loader"):
         console.log(f"[green]Create {upstream}/loader")
         os.makedirs(f"{upstream}/loader")
+
+    console.log("[green]start fetching fabric data!")
+    fetch_fabric_game_version(upstream)
+    versions = fetch_loader_version(upstream)
 
     with Progress() as progress, concurrent.futures.ThreadPoolExecutor() as executor:
         progress_task = progress.add_task("[cyan]Fetching File", total=len(versions))
@@ -25,9 +28,6 @@ def fetch_fabric(upstream):
         for i in versions:
             task = executor.submit(fetch_loader_details, upstream, i.version, progress, progress_task)
             tasks.append(task)
-        for i in concurrent.futures.as_completed(tasks):
-            data = i.result()
-        progress.update(progress_task, description="completed!")
 
 
 def fetch_fabric_game_version(upstream):
@@ -58,7 +58,7 @@ def fetch_loader_details(upstream, loader_version, progress, task):
         console.log(f"[red]error on {loader_version}")
         console.log(e)
 
-    with open(f"{upstream}/loader/{loader_version}.json", "w") as f:
+    with open(f"{upstream}/fabric/loader/{loader_version}.json", "w") as f:
         json.dump(details, f)
 
 
