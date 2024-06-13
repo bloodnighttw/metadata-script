@@ -28,6 +28,8 @@ def fetch_fabric(upstream):
         for i in versions:
             task = executor.submit(fetch_loader_details, upstream, i.version, progress, progress_task)
             tasks.append(task)
+        executor.shutdown(wait=True)
+        progress.update(progress_task, description="completed!")
 
 
 def fetch_fabric_game_version(upstream):

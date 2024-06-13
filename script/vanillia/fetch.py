@@ -41,10 +41,8 @@ def fetch_vanilla(upstream):
         for i in data.versions:
             task = executor.submit(download, i.url, progress, progress_task, i.id, upstream)
             tasks.append(task)
+        executor.shutdown(wait=True)
         progress.update(progress_task, description="completed!")
-        for i in concurrent.futures.as_completed(tasks):
-            data = i.result()
-            # console.log(data)
 
 
 def fetch_version_manifest_v2(upstream):
