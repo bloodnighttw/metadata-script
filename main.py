@@ -5,8 +5,8 @@ from script.fabric.fetch import fetch_fabric
 from script.vanillia.fetch import fetch_vanilla
 
 ASSETS_PATH = "assets/"
-UPSTREAM_PATH = "upstream/"
-LAUNCHER_PATH = "launcher/"
+UPSTREAM_PATH = "upstream"
+LAUNCHER_PATH = "launcher"
 
 console = rich.get_console()
 

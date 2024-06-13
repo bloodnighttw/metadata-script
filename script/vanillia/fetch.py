@@ -35,13 +35,12 @@ def fetch_vanilla(upstream):
     with console.status("[bold green]fetching vanilla data.") as status:
         data = fetch_version_manifest_v2(upstream)
 
-    with Progress() as progress:
+    with Progress() as progress, concurrent.futures.ThreadPoolExecutor() as executor:
         progress_task = progress.add_task("[cyan]Fetching File", total=len(data.versions))
         tasks = []
-        with concurrent.futures.ThreadPoolExecutor() as executor:
-            for i in data.versions:
-                task = executor.submit(download, i.url, progress, progress_task, i.id, upstream)
-                tasks.append(task)
+        for i in data.versions:
+            task = executor.submit(download, i.url, progress, progress_task, i.id, upstream)
+            tasks.append(task)
         progress.update(progress_task, description="completed!")
         for i in concurrent.futures.as_completed(tasks):
             data = i.result()
